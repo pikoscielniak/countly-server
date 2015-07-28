@@ -20,14 +20,15 @@ function hourIsValid(hourStr) {
 
 (function (plugin) {
     plugins.register("/session/begin", function (ob) {
-        var day = "" + ob.params.qstring.begin_session_day;
-        var hour = "" + ob.params.qstring.begin_session_hour;
+        var day = "" + ob.params.qstring.metrics._day;
+        var hour = "" + ob.params.qstring.metrics._hour;
+        var appId = ob.params.app_id;
 
         if (dayIsValid(day) && hourIsValid(hour)) {
             var incProp = day + "." + hour;
             var incObj = {};
             incObj[incProp] = 1;
-            common.db.collection(hodCollectionName).update({'_id': ob.params.app_id},
+            common.db.collection(hodCollectionName).update({'_id': appId},
                 {'$inc': incObj}, {'upsert': true},
                 function () {
                 });

@@ -8,20 +8,17 @@ var API_KEY_ADMIN = "";
 var APP_ID = "";
 var DEVICE_ID = "1234567890";
 var method_name = "hours_of_day";
-var begin_session_hour = "begin_session_hour";
-var begin_session_day = "begin_session_day";
-var query_string_part = getQueryString(2, 1);
+var hour_metric = "_hour metric";
+var day_metric = "_day metric";
+var query_string_part1 = getQueryString(2, 1);
 var query_string_part2 = getQueryString(5, 2);
 
 function getQueryString(day, hour) {
-    var str = "";
-    if (day) {
-        str += "&" + begin_session_day + "=" + day;
-    }
-    if (hour) {
-        str += "&" + begin_session_hour + "=" + hour;
-    }
-    return str;
+    var metrics = {
+        _day:day,
+        _hour:hour
+    };
+    return "&metrics=" + JSON.stringify(metrics);
 }
 
 function beginSession(query_string) {
@@ -57,7 +54,7 @@ describe('Hours of day', function () {
 
     describe('Hours of day validation', function () {
 
-        describe('when ' + begin_session_day + " is not passed", function () {
+        describe('when ' + day_metric + " is not passed", function () {
             it('nothing should be added', function (done) {
                 beginSession("").end(function (err) {
                     if (err) return done(err);
@@ -74,7 +71,7 @@ describe('Hours of day', function () {
             });
         });
 
-        describe('when wrong ' + begin_session_day + " is passed", function () {
+        describe('when wrong ' + day_metric + " is passed", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString("fdsf", 11)).end(function (err) {
                     if (err) return done(err);
@@ -90,7 +87,7 @@ describe('Hours of day', function () {
                 });
             });
         });
-        describe('when ' + begin_session_day + " is above range", function () {
+        describe('when ' + day_metric + " is above range", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString(8, 11)).end(function (err) {
                     if (err) return done(err);
@@ -107,7 +104,7 @@ describe('Hours of day', function () {
             });
         });
 
-        describe('when ' + begin_session_day + " is below range", function () {
+        describe('when ' + day_metric + " is below range", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString(0, 11)).end(function (err) {
                     if (err) return done(err);
@@ -124,7 +121,7 @@ describe('Hours of day', function () {
             });
         });
 
-        describe('when ' + begin_session_hour + " is not passed", function () {
+        describe('when ' + hour_metric + " is not passed", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString(4, "")).end(function (err) {
                     if (err) return done(err);
@@ -141,7 +138,7 @@ describe('Hours of day', function () {
             });
         });
 
-        describe('when wrong ' + begin_session_hour + " is passed", function () {
+        describe('when wrong ' + hour_metric + " is passed", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString(2, "dfsa")).end(function (err) {
                     if (err) return done(err);
@@ -157,7 +154,7 @@ describe('Hours of day', function () {
                 });
             });
         });
-        describe('when ' + begin_session_hour + " is above range", function () {
+        describe('when ' + hour_metric + " is above range", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString(3, 24)).end(function (err) {
                     if (err) return done(err);
@@ -174,7 +171,7 @@ describe('Hours of day', function () {
             });
         });
 
-        describe('when ' + begin_session_hour + " is below range", function () {
+        describe('when ' + hour_metric + " is below range", function () {
             it('nothing should be added', function (done) {
                 beginSession(getQueryString(3, -1)).end(function (err) {
                     if (err) return done(err);
@@ -194,7 +191,7 @@ describe('Hours of day', function () {
 
     describe('Writing Hours of day when session begins', function () {
         it('should success', function (done) {
-            beginSession(query_string_part)
+            beginSession(query_string_part1)
                 .end(function (err, res) {
                     if (err) return done(err);
                     var ob = JSON.parse(res.text);
@@ -218,7 +215,7 @@ describe('Hours of day', function () {
             beginSession(query_string_part2)
                 .end(function (err) {
                     if (err) return done(err);
-                    beginSession(query_string_part)
+                    beginSession(query_string_part1)
                         .end(function (err) {
                             if (err) return done(err);
                             setTimeout(function () {
