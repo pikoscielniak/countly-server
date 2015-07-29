@@ -1,0 +1,4 @@
+#sidebar-menu .sidebar-submenu .item .logo.hours-of-day { background-position:-630px; }
+#sidebar-menu .sidebar-submenu .item.active .logo.hours-of-day { background-position:-600px; }
+
+.widget-header .logo.hours-of-day { background-position:-382px; }

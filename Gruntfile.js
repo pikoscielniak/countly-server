@@ -75,9 +75,11 @@ module.exports = function(grunt) {
 				'frontend/express/public/javascripts/visualization/flot/jquery.flot.resize.js',
 				'frontend/express/public/javascripts/visualization/flot/jquery.flot.stack.js',
 				'frontend/express/public/javascripts/visualization/gauge.min.js',
-				'frontend/express/public/javascripts/visualization/d3/d3.v2.min.js',
-				'frontend/express/public/javascripts/visualization/d3/d3.layout.min.js',
+				//'frontend/express/public/javascripts/visualization/d3/d3.v2.min.js',
+				//'frontend/express/public/javascripts/visualization/d3/d3.layout.min.js',
+				'frontend/express/public/javascripts/visualization/d3/d3.v3.min.js',
 				'frontend/express/public/javascripts/visualization/rickshaw/rickshaw.min.js',
+				'frontend/express/public/javascripts/visualization/dayHourHeatmap/dayHourHeatmap.js',
 			],
 			dest: 'frontend/express/public/javascripts/min/countly.visualization.concat.js'
 		},
@@ -125,6 +127,7 @@ module.exports = function(grunt) {
 	    			'frontend/express/public/stylesheets/amaranjs/amaran.min.css',
 	    			'frontend/express/public/javascripts/dom/tipsy/tipsy.css',
 	    		    'frontend/express/public/javascripts/visualization/rickshaw/rickshaw.min.css',
+	    		    'frontend/express/public/javascripts/visualization/dayHourHeatmap/dayHourHeatmap.css',
 	    		],
     		}
     	}
